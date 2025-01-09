@@ -76,9 +76,9 @@ POST https://logjam.io/flyio/extensions
   id: "test",
   organization_id: "04La2mblTaz",
   organization_name: "High Flyers",
-  organization_email: "04La2mblTaz@customer.fly.io",
   user_email: "v9WvKokd@customer.fly.io",
   user_id: "NeBO2G0l0yJ6",
+  user_role: "admin",
   primary_region: "mad",
   ip_address: "fdaa:0:47fb:0:1::1d",
   read_regions: ["syd", "scl"],
@@ -99,9 +99,9 @@ These parameters are sent with every provisioning request.
 | **id** | string | Unique ID representing the extension | `30bqn49y2jh` |
 | **organization_id** | string | Unique ID representing an organization | `M03FclA4m` |
 | **organization_name** | string | Display name for an organization | `Supercollider Inc` |
-| **organization_email** | string | Obfuscated email that routes to all organization admins (does not change) | `n1l330mao@customer.fly.io` |
-| **user_id** | string | Unique ID representing an organization | `M03FclA4m` |
-| **user_email** | string | Obfuscated email that routes to the provisioning user (does not change) | `n1l330mao@customer.fly.io` |
+| **user_id** | string | Unique ID representing the provisioning user | `M03FclA4m` |
+| **user_email** | string | Obfuscated email that routes to the **provisioning** user (does not change) | `n1l330mao@customer.fly.io` |
+| **user_role** | string | Provisioning user's role | `admin, member` |
 
 **Optional parameters**
 
@@ -121,35 +121,45 @@ If your service is deployed on Fly, the response should also contain details abo
 
 **Provisioning Response**
 
-| Name | Type | Description | Example |
-| --- | --- | --- | --- |
-| **id** | string | A unique identifier for the resource on the provider platform | `432cb1c9-4d06-4a91-95dc-bc7aa27b896d` |
-| **fly_app_name** | string | The target Fly application for internal traffic | `432cb1c9-4d06-4a91-95dc-bc7aa27b896d` |
-
-
 ```javascript
 {
+  "id": "432cb1c9-4d06-4a91-95dc-bc7aa27b896d",
   "config": {
     "LOGJAM_URL": "https://user:password@test.logjam.io"
   },
-  "fly_app_name": "logjam-production",
-  "id": "432cb1c9-4d06-4a91-95dc-bc7aa27b896d"
+  "name": "logjam-1bd03ba",
+  "fly_app_name": "logjam-production"
 }
 
 ```
+
+Your response must return a unique ID, which could be yours or the same the one we sent you. We'll always use this ID to make requests to your API. You must also return a `config` object containing the environment variables that the provisioning should set.
+
+Optionally, you can send:
+
+* a `fly_app_name` as the target for Flycast traffic on the IP address provisioned to your extension.
+* an updated `name` for the extension resource, should you need to change the name we supplied due to uniqueness constraints or other reasons
+
+| Name | Type | Description | Example |
+| --- | --- | --- | --- |
+| **id** | string | A unique identifier for the resource on the provider platform | `432cb1c9-4d06-4a91-95dc-bc7aa27b896d` |
+| **fly_app_name** | string | Fly.io application name target for internal traffic | `logjam-production` |
+| **name** | string | Fly.io application name target for internal traffic | `logjam-1bd03ba` |
+
+
 ### Giving customers private access to your service
 
-If you're deploying on Fly.io, your service should be accessible to customers without exposing it to the public internet.
+If you're deploying on Fly.io, your service should be accessible to customers without exposing it to the public internet. In cases where this isn't possible or desirable, your service allow setting network restrictions to prevent internet access by default.
 
 ### Routing private traffic with Flycast
 
-Our [Flycast](https://fly.io/docs/reference/private-networking/#flycast-private-load-balancing) internal load balancing feature allow you to route traffic from an IPv6 address on a customer network to one of your Fly.io applications.
+Our [Flycast](/docs/networking/flycast/) internal load balancing feature allow you to route traffic from an IPv6 address on a customer network to one of your Fly.io applications.
 
 The `ip_address` field above refers to this feature. At provisioning time, we'll allocate an address on the customer network for you. Then, your reply should include the target Fly.io application where you wish that IP's traffic to be routed to.
 
-By default, no traffic is routed to your app until it has services configured. See the [Machines API](https://fly.io/docs/machines/working-with-machines/#create-a-machine) and [fly.toml docs](https://fly.io/docs/reference/configuration/#the-services-sections) for details.
+By default, no traffic is routed to your app until it has services configured. See the [Machines API](/docs/machines/api-machines-resource/#create-a-machine) and [fly.toml docs](https://fly.io/docs/reference/configuration/#the-services-sections) for details.
 
-Optionally, you can add the [proxy protocol handler](https://fly.io/docs/reference/services/#connection-handlers) to a service. We co-opt the [proxy protocol](https://github.com/haproxy/haproxy/blob/master/doc/proxy-protocol.txt) as a way to give your service knowledge of the IP address assigned on the customer network, at client connection time. This IP is useful for performing an additional security check beyond user/password credentials or tokens.
+Optionally, you can add the [proxy protocol handler](https://fly.io/docs/networking/services/#connection-handlers) to a service. We co-opt the [proxy protocol](https://github.com/haproxy/haproxy/blob/master/doc/proxy-protocol.txt) as a way to give your service knowledge of the IP address assigned on the customer network, at client connection time. This IP is useful for performing an additional security check beyond user/password credentials or tokens.
 
 ### DNS records
 
@@ -167,13 +177,12 @@ For a good developer experience, you should create a public DNS record for your 
 
 ```
 
-### Providing extension status after provisioning
+### Fetching extension status
 
-Im some cases, we'll want to be able to fetch data about your extension. For example, when displaying credentials to users directly via the CLI, we won't store these credentials in our database. We'll pass this request directly to your API.
+In most cases, we'll need to fetch information about a specific extension resource. For example, to get its current `status`, display usage information, etc.
 
-Also, if your resource cannot be provisioned synchronously, we'll need such an endpoint to poll readiness status.
+Also, if your resource cannot be provisioned synchronously, we'll need such this endpoint to poll readiness status.
 
-This endpoint should be discussed on a case-by-base basis.
 
 ### Updating Extensions
 
@@ -266,7 +275,7 @@ The JSON response:
 }
 ```
 
-## Webhooks: Notify Fly.io about changes to extension resources
+## Incoming Webhooks: Notify Fly.io about changes to extension resources
 
 Providers should send webhooks to Fly.io when changes happen to resources, such as:
 
@@ -288,7 +297,7 @@ Webhook requests should be signed the same way as we [sign provisioning requests
 
 ### The webhook request body
 
-The request must include a UNIX `timestamp`, `action` string  and `resource` objevt. Here's an example:
+The request must include a UNIX `timestamp`, `action` string  and `resource` object. Here's an example:
 
 ```
 {
@@ -307,9 +316,57 @@ Supported actions are:
 ```
 resource.updated
 resource.deleted
+resource.created
 ```
 
-Note: the shape of `resource` should be the same as that provided by any `GET` endpoints for invidividual resources.
+For `resource.created`, the request body should include the Fly.io `organization_id` and `user_id` that provisioned the resource.
+
+```
+{
+  "timestamp": "1693513586",
+  "action": "resource.created",
+  "resource": {
+    "plan": "scaler_pro",
+    "name": "myprod-db"
+    "organization_id": "kg032ljbmqs0j",
+    "user_id": "nh0kweyt23jyhl",
+    "id": "5lgmabb3y30",
+    "status": "ready"
+  }
+}
+```
+
+Note: `resource` should contain the same parameters provided by `GET` endpoints for invdividual resources.
+
+## Outbound Webhooks: Get notified about changes to provisioned accounts and resources
+
+We intend to inform your service about system changes such as:
+* Addition or removal of provisioned users from an organization
+* Provisioned user role changes
+* Issues with hosts that affect your deployment
+* Individual machine events (stops, starts, crashes, etc)
+
+**Currently, we only send machine events from a single Fly.io organization.**
+
+If your service deploys on Fly.io, we can send you webhooks for machine events, such as stops and starts, with some details about the source and cause of each.
+
+These webhooks conform to the [CloudEvents spec](https://github.com/cloudevents/spec). The spec encodes common attributes like `ID`, `source`, `type` and `timestamp` in HTTP headers. Find your [SDK of choice here](https://github.com/cloudevents/).
+
+*Type* will be encoded in this format: `io.fly.machine.starting`. The contents of `data` varies depending on the event. These types and data will be documented, eventually. For now, consult us on a case-by-case basis if the contents are not self-explanatory.
+
+Here's a sample payload, minus the fields mentioned above.
+
+```
+POST https://logjam.io/flyio/extensions/events
+{
+  "machine_id": "5683977ad31768",
+  "status": "failed",
+  "data": {
+    "Error": "image not found",
+    "Transition": "prepareImage"
+  }
+}
+```
 
 ## Email communication with customers
 
@@ -325,7 +382,7 @@ Providers should mostly send transactional messages about the resource itself, o
 
 Providers should take care that developers do not receive duplicate emails. For example, if a user is placed on an opt-out email campaign, you should ensure the following:
 
-The same user should not receive multiple, indentical emails because they happen to provision resources on more than one Fly.io organization. This is quite common, as organizations are used for separating production and staging environments, for example.
+The same user should not receive multiple, identical emails because they happen to provision resources on more than one Fly.io organization. This is quite common, as organizations are used for separating production and staging environments, for example.
 
 Once a single user in an organization has been placed on an email campaign, other users in the same organization should not be placed on a similar campaign merely for having used SSO sign-in.
 

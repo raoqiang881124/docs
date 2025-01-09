@@ -1,14 +1,16 @@
 ---
-title: Get Information about an App
-objective: 
+title: Get information about an app
 layout: docs
-nav: firecracker
-order: 15
+nav: apps
 ---
 
-Once your Fly App is launched, `flyctl` has various tools for getting information about it. You can also find a lot of information on your Fly.io [web dashboard](https://fly.io/dashboard).
+<figure>
+  <img src="/static/images/docs-books.webp" alt="">
+</figure>
 
-## Find all your Apps
+Once your Fly App is launched, `flyctl` has various tools for getting information about it. You can also find a lot of information on your Fly.io [dashboard](https://fly.io/dashboard).
+
+## Find all your apps
 
 You can see a list of all your Fly Apps:
 
@@ -17,11 +19,11 @@ fly apps list
 ```
 ```out
 NAME          OWNER           STATUS          PLATFORM        LATEST DEPLOY        
-testrun       personal        deployed        machines                            
-olddeadapp    personal        dead            nomad           2022-12-27T23:33:07Z
+testrun       personal        deployed        machines        21h17m ago                    
+my-app        personal        suspended       machines        2023-11-15T23:33:07Z
 ```
 
-## App Overviews
+## App overviews
 
 If you want a brief app overview, including a list of Machines on that app with their current status, use `fly status`:
 
@@ -41,7 +43,7 @@ ID              STATE   REGION  HEALTH CHECKS           IMAGE                   
 
 As with many flyctl commands, if you leave off the `-a` flag, `fly status` will infer the app name from the `fly.toml` file in the working directory, if there is one.
 
-`fly machine list` yields a different set of information for each Machine on a [V2 App](/docs/reference/apps/), including the Machine's [internal IPv6 address](/docs/reference/private-networking/):
+`fly machine list` yields a different set of information for each Machine, including the Machine's [internal IPv6 address](/docs/networking/private-networking/):
 
 ```cmd
 fly machine list -a testrun
@@ -55,7 +57,7 @@ ID              NAME                    STATE   REGION  IMAGE                   
 178115db494e18  holy-waterfall-9884     started lhr     testrun:deployment-01GTYFV11PM7D7B30AWZSH1FZE       fdaa:0:3b99:a7b:a98:6c48:67c5:2              2023-03-07T16:52:59Z    2023-03-07T16:53:06Z    v2              app    
 ```
 
-## Examine a specific Machine (V2 only)
+## Examine a specific Machine
 
 You can drill down and get an overview of a particular Machine with `fly machine status`.  This is where you'll find the Machine's CPU size and RAM settings.
 
@@ -104,18 +106,19 @@ TCP             80 => 8080 [HTTP]       True
 
 ## Public IP addresses
 
-Find your app's public Anycast IPs with `fly ips list`.
+Find your app's public Anycast IPs and private Flycast IPs with `fly ips list`.
 
 ```cmd
 fly ips list
 ```
 ```out
-VERSION IP                      TYPE            REGION  CREATED AT           
-v6      2a09:8280:1::d285       public          global  2023-01-25T21:35:29Z
-v4      66.241.125.211          public (shared)           
+VERSION	IP                  	TYPE              	REGION	CREATED AT
+v6     	2a09:8280:1::2d:678b	public (dedicated)	global	Sep 1 2023 19:47
+v6     	fdaa:2:45b:0:1::23  	private           	global	Mar 16 2024 18:20
+v4     	66.241.124.63       	public (shared)   	      	Jan 1 0001 00:00
 ```
 
-Read more about [Public Network Services](/docs/reference/services/) and [Private Networking](/docs/reference/private-networking/).
+Read more about [Public networking](/docs/networking/services/) and [Private networking](/docs/networking/private-networking/).
 
 
 ## Check on it from inside
@@ -146,13 +149,12 @@ tmpfs             113224      0    113224   0% /sys/fs/cgroup
 /dev/vdb         1011672   2564    940500   1% /storage
 ```
 
-<div class="callout">If you are running an interactive command (like a shell, IEx, or the Rails console), you may need to use the `--pty` flag. This tells the SSH server to run the command in a pseudo-terminal. (If you're familiar with OpenSSH, this is like the `-t` flag for `ssh`.)</div>
+<div class="callout">If you are running an interactive command (like a shell, IEx, Django management command, or the Rails console), you may need to use the `--pty` flag. This tells the SSH server to run the command in a pseudo-terminal. (If you're familiar with OpenSSH, this is like the `-t` flag for `ssh`.)</div>
 
 
-## Inspect the Current Configuration of a Deployed App or Machine
+## Inspect the current configuration of a deployed app or Machine
 
 Machines can be configured individually, but Fly Launch applies the app's config on `fly deploy` to all Machines that are administered by the app. Display the app configuration in JSON format with `fly config show`.
-
 
 ### Show the app config
 
@@ -269,4 +271,4 @@ fly logs -a testrun
 
 `fly logs` stays open, watching the logs, until you stop it (<kbd>ctrl-C</kbd>).
 
-You can also [ship logs to an external service](/blog/shipping-logs/).
+Learn more about [logging on Fly.io](/docs/monitoring/logging-overview/).

@@ -45,7 +45,7 @@ RUN if [ -f "vite.config.js" ]; then \
         yarn install --frozen-lockfile; \
         yarn $ASSET_CMD; \
     elif [ -f "pnpm-lock.yaml" ]; then \
-        corepack enable && corepack prepare pnpm@latest-7 --activate; \
+        corepack enable && corepack prepare pnpm@latest-8 --activate; \
         pnpm install --frozen-lockfile; \
         pnpm run $ASSET_CMD; \
     elif [ -f "package-lock.json" ]; then \
@@ -108,7 +108,7 @@ Now that you have more than one process group for your Fly.io app, you'll have t
 
 
 ### Web and SSR Communication
-The SSR server will be created as a separate VM from your web app. You'll have to configure your Laravel web VM to [talk with it](https://community.fly.io/t/process-group-aware-internal-dns-route-between-processes-with-ease/13063/4). To do so, first revise the `fly.toml` file to include an `SSR_URL` that will contain the ssr process' [.internal address](https://fly.io/docs/reference/private-networking/#fly-internal-addresses) routed to SSR's applicable port ( in the case below, 13714):
+The SSR server will be created as a separate VM from your web app. You'll have to configure your Laravel web VM to [talk with it](https://community.fly.io/t/process-group-aware-internal-dns-route-between-processes-with-ease/13063/4). To do so, first revise the `fly.toml` file to include an `SSR_URL` that will contain the ssr process' [.internal address](https://fly.io/docs/networking/private-networking/#fly-io-internal-addresses) routed to SSR's applicable port ( in the case below, 13714):
 ```.env
 [env]
   SSR_URL="ssr.process.<yourAppNameHerePlease>.internal:13714"

@@ -1,0 +1,127 @@
+---
+title: Dynamic Request Routing with fly-replay
+layout: docs
+nav: firecracker
+redirect_from:
+  - /docs/reference/fly-replay/
+  - /docs/reference/regional-request-routing/
+  - /docs/reference/dynamic-request-routing/
+---
+
+The `fly-replay` header is a powerful feature that gives you fine-grained control over request routing in your Fly.io applications. It allows you to dynamically route requests between regions, specific Machines, or even different apps within your organization.
+
+## How fly-replay Works
+
+When your app adds a `fly-replay` header to a response, [Fly Proxy](/docs/reference/fly-proxy) will automatically replay the original request according to your specified routing rules. This enables advanced patterns like:
+
+- Routing write operations to primary database regions
+- Load balancing between specific Machines
+- Cross-app request routing within your organization
+- Implementing sticky sessions
+
+<%= youtube "https://www.youtube.com/watch?v=riCh9Xeuf0s" %>
+
+## Header Fields Reference
+
+The `fly-replay` header accepts the following fields:
+
+|Field |Description |
+|---|---|
+|`region` | The 3-letter code for the [region](/docs/reference/regions/) to route the request to |
+|`instance` | The ID of a specific Machine to route to |
+|`app` | The name of another app (in same organization) to route to |
+|`state` | Optional string included in `fly-replay-src` header on replay |
+|`elsewhere` | If `true`, excludes responding Machine from next load-balance |
+
+### Example Usage
+
+Route to specific region:
+```
+fly-replay: region=sjc
+```
+
+Route to specific Machine:
+```
+fly-replay: instance=00bb33ff
+```
+
+Route to another app:
+```
+fly-replay: app=app-in-same-org
+```
+
+You can combine multiple fields:
+```
+fly-replay: region=sjc;app=app-in-same-org
+```
+
+## Implementation Details
+
+### Requirements and Limitations
+
+- Your app must use the [http handler](/docs/networking/services/#http-handler)
+- Requests larger than 1MB cannot be replayed
+- Field combinations must be logically valid (e.g., don't specify both app and instance if instance isn't in that app)
+
+For large uploads that exceed the 1MB limit, consider:
+- Using direct-to-storage uploads where possible
+- Using the [fly-prefer-region](#the-fly-prefer-region-request-header) header instead
+
+### The fly-replay-src Header
+
+When a request is replayed, Fly Proxy adds a `fly-replay-src` header containing metadata about the original request:
+
+|Field |Description |
+|---|---|
+|`instance` | ID of Machine that sent fly-replay |
+|`region` | Region request was replayed from |
+|`t` | Timestamp (microseconds since Unix epoch) |
+|`state` | Contents of original state field, if any |
+
+This header is useful for tracking request paths and implementing consistency patterns. See the [official Ruby client](https://github.com/superfly/fly-ruby/blob/main/lib/fly-ruby/regional_database.rb#L74-L76+external) for an example of using these fields to prevent read-your-write inconsistency.
+
+## Alternative Routing Headers
+
+For cases where `fly-replay` isn't suitable, Fly.io provides two alternative request headers:
+
+### The fly-prefer-region Header
+
+```
+fly-prefer-region: ams
+```
+
+Attempts to route directly to a specific region. Falls back to nearest region with healthy Machines if target region is unavailable. Useful for large uploads that can't be replayed.
+
+### The fly-force-instance-id Header
+
+```
+fly-force-instance-id: 90801679a10038
+```
+
+Forces routing to a specific Machine. No fallback if Machine is unavailable.
+
+<div class="note icon">
+**Note**: Get Machine IDs using `fly status` or `fly Machines list`.
+</div>
+
+## Common Use Cases
+
+### Multi-Region Databases
+
+When using [global read replicas](/docs/postgres/high-availability-and-global-replication), use `fly-replay` to ensure write operations go to the primary region:
+
+```
+fly-replay: region=sjc
+```
+
+See our blueprint for [Multi-region databases and fly-replay](/docs/blueprints/multi-region-fly-replay/) for a complete implementation guide.
+
+### Cross-App Routing
+
+Use `fly-replay` to implement routing layers or FaaS-style architectures:
+
+```
+fly-replay: app=customer-function-app
+```
+
+This allows you to build router apps that can dynamically route requests to other apps in your organization.

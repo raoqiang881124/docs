@@ -1,3 +1,4 @@
+args
 autoscale
 autoscaler
 autoscaling
@@ -7,6 +8,7 @@ chmod
 config
 const
 cpus
+deprioritize
 dockerfile-rails
 dockerignore
 healthcheck
@@ -23,3 +25,5 @@ v1
 v2
 vm
 vms
+http
+youtube

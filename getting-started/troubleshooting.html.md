@@ -1,9 +1,12 @@
 ---
-title: Troubleshooting your deployment
+title: Troubleshoot your deployment
 layout: docs
-sitemap: false
 nav: firecracker
 ---
+
+<figure>
+  <img src="/static/images/docs-magnify.webp" alt="">
+</figure>
 
 This section gives you some ideas of how to start troubleshooting if your deployment doesn't work as expected. If you're still stuck after reading, then visit our [community forum](https://community.fly.io/) for more help.
 
@@ -29,7 +32,7 @@ fly settings autoupdate enable
 
 ### Check connectivity with fly doctor
 
-Run some basic connectivity test for things like Wireguard, IP addresses, and local Docker instance:
+Run some basic connectivity test for things like WireGuard, IP addresses, and local Docker instance:
 
 ```
 fly doctor
@@ -39,7 +42,7 @@ Any failures in the `fly doctor` output point to where you can start troubleshoo
 
 ### Review your `fly.toml` configuration
 
-Double-check the formatting and configuration options in your `fly.toml` file. Besides [checking port numbers](#warning-the-app-is-listening-on-the-incorrect-address-host-and-port-checking), you should also review any recent changes and make sure you're following the conventions described in [Fly Launch configuration](/docs/reference/configuration/).
+Double-check the formatting and configuration options in your `fly.toml` file. Besides [checking port numbers](#warning-the-app-is-listening-on-the-incorrect-address-host-and-port-checking), you should also review any recent changes and make sure you're following the conventions described in the [app configuration](/docs/reference/configuration/) docs.
 
 ## Get more information about failures
 
@@ -90,7 +93,7 @@ The message supplies:
 
 ### Fix the "app is not listening on the expected address" error
 
-When you launch a new Fly App, the value of `internal_port` in the`fly.toml` file depends on the default port for your framework or the `EXPOSE` instruction in your Dockerfile. The default port when the `fly launch` command doesn't detect a framework or find ports set in a Dockerfile is `8080`.
+When you launch a new Fly App, the value of `internal_port` in the `fly.toml` file depends on the default port for your framework or the `EXPOSE` instruction in your Dockerfile. The default port when the `fly launch` command doesn't detect a framework or find ports set in a Dockerfile is `8080`.
 
 To fix the error, you can either:
 - Configure your app to listen on host `0.0.0.0:<internal port value in fly.toml>`, or
@@ -102,7 +105,7 @@ For example, if your app listens on `0.0.0.0:3000`, then set `internal_port = 30
 
 A lot of frameworks will listen on `localhost`/`127.0.0.1` by default so that the developer can connect to the app. Different frameworks also define different default ports, like 3000, 8000, or 8080, for example. It can be easy to make a mistake and configure your app in a way that makes it impossible for the Fly Proxy to route requests to it. And it can be difficult to debug, especially if your framework doesn't print the listening address to logs and your image doesn't have `netstat` or `ss` tools.
 
-Learn more about [connecting to an app service](/docs/getting-started/app-services/).
+Learn more about [connecting to an app service](/docs/networking/app-services/).
 
 ### Example - Configure port and host in a Fastify Node app
 
@@ -155,6 +158,10 @@ fastify.listen({ port: 3000, host: '0.0.0.0' }, function (err, address) {
 ```
 
 Then make sure that the `internal_port` value in `fly.toml` is set to `3000`.
+
+## Smoke checks failing
+
+Smoke checks run during deployment to make sure that a crashing app doesn't get successfully deployed to all your app's Machines. If possible, the smoke check failure output includes an excerpt of the logs to help you diagnose the issue with your app. Common issues with new apps might include [Machine size](#out-of-memory-oom-or-high-cpu-usage), missing environment variables, or other problems with the app's configuration.
 
 ## Health checks failing
 
@@ -225,3 +232,8 @@ First of all, we think using a [Dockerfile](https://fly.io/docs/languages-and-fr
 That's because buildpacks come with lots of dependencies to build different stacks rather than just what you need. On top of that, we've seen buildpack providers upgrade the image on Docker Hub and things Stop Working (even with no code changes on your app). Running `fly launch` already generates Dockerfiles for many [popular frameworks](/docs/languages-and-frameworks/).
 
 That said, if the build used to work, then you can try using a previous, fixed buildpack version so it's back in a known good state.
+
+## Related topics
+
+- [Troubleshoot apps when a host is unavailable](/docs/apps/trouble-host-unavailable/)
+- [Fly.io error codes and troubleshooting](/docs/monitoring/error-codes/)

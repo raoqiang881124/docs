@@ -3,10 +3,8 @@ title: Horizontal Scaling
 objective:
 layout: framework_docs
 order: 50
+toc: false
 ---
-
-<%= partial "docs/postgres/partials/for-machines" %>
-
 
 Horizontally scale your Postgres cluster with the  [`flyctl machine clone`](https://fly.io/docs/flyctl/machine-clone/) command. Here's an example:
 

@@ -1,7 +1,6 @@
 ---
 title: Built-in HTTP Proxy
 layout: docs
-sitemap: false
 nav: litefs
 toc: true
 ---
@@ -45,7 +44,7 @@ replication position.
 
 The proxy handles requests a bit differently on replicas since they cannot write
 data and they may lag slightly behind the primary. First, write requests
-(`POST`, `PUT`, etc) are forwarded to primary node using [`fly-replay` header](/docs/reference/dynamic-request-routing/).
+(`POST`, `PUT`, etc) are forwarded to primary node using [`fly-replay` header](/docs/networking/dynamic-request-routing/).
 This ensures that all writes occur on the primary.
 
 For read requests (`GET`), the replica will wait for the replication position on
@@ -81,3 +80,9 @@ is configured to the proxy's bind port in your `fly.toml`:
   protocol = "tcp"
 ```
 
+
+## Websockets
+
+At this time, the proxy does not work with WebSockets. You can still use LiteFS
+with WebSocket applications but you will need to internally proxy the write
+requests to the [current primary in the cluster](primary).

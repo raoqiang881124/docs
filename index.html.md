@@ -1,36 +1,112 @@
 ---
 title: "Fly.io developer documentation"
 layout: docs
-sitemap: false
+toc: false
+breadcrumbs: false
 nav: firecracker
 ---
 
-Deploy your project in a few minutes with [Fly Launch](/docs/apps/). Then do more with [Fly Machines](/docs/machines/).
-
-## Run your entire stack near your users
-
-Deploy in any [region](/docs/reference/regions/). Manage your worker [processes](/docs/apps/processes/) alongside your web server. Back it with a [Fly Postgres](/docs/postgres/) app, or bring your own exotic database. Whatever supporting infrastructure you need! It's all just VMs.
-
-[Try our Speedrun](/docs/speedrun/)
-
-[Learn more about Fly Launch](/docs/apps/)
-
-## Scale at your own pace
-
-[flyctl](/docs/flyctl/) helps you herd VMs, but puts the power in your hands.
-
-Scale locally, or put your app next to your users in ten more cities. Either way, it's [one command](/docs/apps/scale-count/). Add CPU oomph or RAM, again with [one command](/docs/apps/scale-machine/). Pay for what you use, and have your VMs stop when they're idle, so you don't use more than you need. 
-
 <figure>
-  <img src="/static/images/docs-intro.webp" srcset="/static/images/docs-intro@2x.webp 2x" alt="">
+  <img src="/static/images/doc-main.png" alt="Illustration by Annie Ruygt of Frankie the hot air balloon waving to a bird sitting on a hour roof" class="w-full max-w-lg mx-auto">
 </figure>
 
-## Control individual VMs
+<div class="index-page">
 
-The Fly Launch platform-as-a-service is there to make your apps easy to launch and manage. When you outgrow its opinions, micromanage your app VMs with `fly machines` commands, or drop down a level of abstraction to the [Machines](/docs/machines/working-with-machines/) API. Launch [tiny, fast-booting VMs](/docs/machines/) from your app! The perfect way to run user code, or try that sketchy Typescript snippet ChatGPT suggested.
+## Get started
 
-[Learn more about Fly Machines](/docs/machines/)
+Try our [quickstart or demo app](/docs/getting-started/)
 
-## Build your own cloud
+Or choose your favorite [language or framework](/docs/getting-started/get-started-by-framework/)
 
-Go ahead and build your own cloud on top of Fly Machines! Did we mention it's all just VMs? Fly.io features don't care what shape your project takes. A powerful CLI, remote Docker builds, private networking, persistent storage, logging, metrics, secrets management, load balancing, certs, autoscaling, dynamic request routing...it's all available, whatever scale and complexity you're working with.
+---
+
+## Apps on Fly.io
+
+_Fly Launch is app configuration, provisioning, deployment, scaling, and orchestration with our flyctl CLI._
+
+[Create and manage apps](/docs/apps/)
+
+[Going to production checklist](/docs/apps/going-to-production/)
+
+[App config (fly.toml)](/docs/reference/configuration/)
+
+
+---
+
+## flyctl CLI
+
+_Use the `fly` command to create and deploy apps, control individual Machines, configure networking, and more._
+
+Install [flyctl](/docs/flyctl/install)
+
+flyctl is [open source](https://github.com/superfly/flyctl+external)
+
+---
+
+## Fly Machines
+
+_Machines are fast-launching VMs—and the compute engine of the Fly.io platform. Get precise, low-level control of Machines with our REST API_
+
+Learn all about [Fly Machines](/docs/machines/)
+
+[Machines API docs](/docs/machines/api/)
+
+---
+
+## GPU compute
+
+_Run GPU workloads on Fly Machines._
+
+[Fly GPUs](/docs/gpus/)
+
+---
+
+## Supporting services
+
+_Services from Fly.io and our extension partners to help you run your entire stack near your users._
+
+[Tigris object storage](/docs/tigris/)
+
+[Supabase Postgres (public alpha)](/docs/supabase/)
+
+[Upstash for Redis®](/docs/upstash/redis/)
+
+[LiteFS - Distributed SQLite](/docs/litefs/)
+
+[Fly Kubernetes (private beta)](/docs/kubernetes/)
+
+---
+
+## Networking
+
+_Networking on Fly.io._
+
+[Private networking](/docs/networking/private-networking)
+
+[Public networking](/docs/networking/services)
+
+[Custom domains](/docs/networking/custom-domain/)
+
+---
+
+## Monitoring
+
+_Explore built-in and custom Prometheus metrics and Grafana dashboards. Live tail and search your app's logs, or ship them where you want them._
+
+[Fly.io Metrics](/docs/monitoring/metrics/)
+
+[Error Monitoring by Sentry](/docs/monitoring/sentry/)
+
+[Logging on Fly.io](/docs/monitoring/logging-overview/)
+
+---
+
+## Security
+
+_Built-in security and partner extensions._
+
+[Security](/docs/security/) on the Fly.io platform
+
+[Application security by Arcjet](/docs/security/arcjet/) for JavaScript apps
+
+</div>

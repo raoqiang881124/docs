@@ -2,22 +2,18 @@
 title: "Fly Postgres"
 layout: framework_docs
 redirect_from: /docs/reference/postgres/
+toc: false
 ---
 
 <img src="/static/images/postgres.webp" srcset="/static/images/postgres@2x.webp 2x" alt="A model airplane with the Fly.io logo painted on its side, sitting next to some paint and brushes.">
 
-<div class="callout">
-Fly Postgres clusters created with flyctl [v0.0.412](https://github.com/superfly/flyctl/releases/tag/v0.0.412) or newer use our next-gen [Apps V2](https://fly.io/docs/reference/apps/) architecture, built on [Fly Machines](/docs/reference/machines/). **Existing Fly Postgres clusters will continue to work, powered by Nomad.** Docs for these databases can be found here:
-  - **[Legacy Fly Postgres Clusters](/docs/postgres/postgres-on-nomad/)**
-  - **[Multi-region Postgres (Legacy)](/docs/getting-started/multi-region-databases/)**
-</div>
+<div class="important icon">**Important:** We are not able to provide support or guidance for this product. Use with caution as this is not [managed postgres](https://fly.io/docs/postgres/getting-started/what-you-should-know/).</div>
 
-[Postgres](https://www.postgresql.org/), formally known as PostgreSQL, is a powerful open source object relational database system that's used by many popular web frameworks to persist application data.
+[Postgres](https://www.postgresql.org/+external), formally known as PostgreSQL, is a powerful open source object relational database system that's used by many popular web frameworks to persist application data.
 
 Fly Postgres is a Fly app with flyctl sugar on top to help you bootstrap and manage a database cluster for your apps. It comes with most commonly used functionality (replication, failover, metrics, monitoring and daily snapshots).
 
 **[Read about why Fly Postgres is not the same thing as a managed database service](/docs/postgres/getting-started/what-you-should-know).**
-
 
 When you create a Fly Postgres cluster, you're offered several preset configurations. The "High Availability" options are three-node clusters. In case of a node failure, a HA Fly Postgres cluster will automatically take the bad actor out of the picture and, if necessary, fail over leadership to the healthy node.
 
@@ -27,4 +23,4 @@ In the single-instance "Development" config, you'll also be given the option to 
 
 You can also add read-only replicas in other regions and take advantage of the Fly.io platform's proxy features to build a [Globally Distributed Postgres cluster](/docs/postgres/advanced-guides/high-availability-and-global-replication).
 
-The Fly Postgres app is fully open source. Just fork [fly-apps/postgres-ha](https://github.com/fly-apps/postgres-ha) and add whatever meets your needs. You can even update an existing cluster with your new image using `fly deploy --image`. One caveat is that once you fork, you won't be able to use `fly postgres` commands to administer your app. 
+The Fly Postgres app is fully open source. Just fork [fly-apps/postgres-flex](https://github.com/fly-apps/postgres-flex) and add whatever meets your needs. You can even update an existing cluster with your new image using `fly deploy --image`. One caveat is that once you fork, you won't be able to use `fly postgres` commands to administer your app. 

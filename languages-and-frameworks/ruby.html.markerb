@@ -1,7 +1,6 @@
 ---
 title: "Run a Ruby App"
 layout: language-and-framework-docs
-sitemap: false
 redirect_from: /docs/getting-started/ruby/
 ---
 
@@ -73,7 +72,7 @@ And connect to localhost:9292 to confirm that you have a working Ruby applicatio
 
 ## _Install Flyctl and Login_
 
-We are ready to start working with Fly and that means we need `flyctl`, our CLI app for managing apps on Fly. If you've already installed it, carry on. If not, hop over to [our installation guide](/docs/hands-on/install-flyctl/). Once that's installed you'll want to [log in to Fly](/docs/getting-started/log-in-to-fly/).
+We are ready to start working with Fly and that means we need `flyctl`, our CLI app for managing apps on Fly. If you've already installed it, carry on. If not, hop over to [our installation guide](/docs/flyctl/install/). Once that's installed you'll want to [log in to Fly](/docs/getting-started/sign-up-sign-in/).
 
 
 ## _Launch the app on Fly_
@@ -132,7 +131,7 @@ Most Dockerfiles expect some configuration settings through `ENV`. The generated
 
 Add whatever values your Dockerfile or container requires.
 
-Sometimes you have secrets that shouldn't be checked in to `git` or shared publicly. For those settings, you can set them using [`fly secrets`](https://fly.io/docs/reference/secrets/#setting-secrets).
+Sometimes you have secrets that shouldn't be checked in to `git` or shared publicly. For those settings, you can set them using [`fly secrets`](https://fly.io/docs/apps/secrets/#set-secrets).
 
 ```cmd
 fly secrets set MY_SECRET=romance
@@ -165,16 +164,16 @@ This will lookup our `fly.toml` file, and get the app name from there. Then `fly
 
 ## _Connecting to the App_
 
-The quickest way to browse your newly deployed application is with the `flyctl open` command.
+The quickest way to browse your newly deployed application is with the `flyctl apps open` command.
 
 ```cmd
 fly apps open
 ```
 ```output
-Opening http://helloruby.fly.dev/
+Opening https://helloruby.fly.dev/
 ```
 
-Your browser will be sent to the displayed URL. Fly will auto-upgrade this URL to a HTTPS secured URL.
+Your browser will be sent to the displayed URL.
 
 ## _Arrived at Destination_
 
