@@ -9,7 +9,7 @@ Fly.io is a global cloud service for running full stack apps close to users. We 
 
 We have two main goals: to deliver a slick developer experience, and to build the best possible platform for running full stack apps. We're looking for partners that share this goal, extending Fly.io with services our customers need.
 
-Services such as managed databases, exception handlers, CI runners or log aggregators are great examples. Check out our [managed Redis extension by Upstash](https://fly.io/docs/reference/redis/) to get an idea of what's possible, and how we integrate services directly into our CLI.
+Services such as managed databases, exception handlers, CI runners or log aggregators are great examples. Check out our [managed Upstash for Redis](https://fly.io/docs/upstash/redis/) to get an idea of what's possible, and how we integrate services directly into our CLI.
 
 [Check out our documentation](https://fly.io/docs) to see what our platform has to offer. Contact us at [extensions@fly.io](mailto:extensions@fly.io) to discuss your case!
 
@@ -52,4 +52,4 @@ To fulfil our promise of a performant application in any Fly.io region, latency 
 
 Your Fly.io network is essentially a global, encrypted LAN, with DNS service discovery and load balancing built-in. This greatly simplifies configuration of services that cluster and gossip. Customers access your service via a single private IP address that automatically routes traffic to the nearest provider VM.
 
-We also offer cost-cutting features such as [automatic VM stop/start based on incoming request volume](https://fly.io/docs/apps/autostart-stop/). Contact us at [extensions@fly.io](mailto:extensions@fly.io) to learn more - we're happy to help you get started!
+We also offer cost-cutting features such as [automatic VM stop/start based on incoming request volume](/docs/launch/autostop-autostart/). Contact us at [extensions@fly.io](mailto:extensions@fly.io) to learn more - we're happy to help you get started!

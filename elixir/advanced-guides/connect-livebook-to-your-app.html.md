@@ -2,8 +2,9 @@
 title: Connecting Livebook to Your App in Production
 layout: framework_docs
 order: 6
-objective: Guide shows how to connect a locally running Livebook to your application running on Fly.
+objective: Guide for connecting a locally running Livebook to your application running on Fly.
 redirect_from: /docs/app-guides/elixir-livebook-connection-to-your-app
+redirect_from: /blog/connecting-livebook-to-your-production-application/
 author: mark
 categories:
   - elixir
@@ -24,7 +25,7 @@ There are a few requirements for this to work.
 
 - **Livebook requires Elixir version 1.14.2 or higher**. Livebook runs locally on your machine, so that part is easy to control. However, the **server** side needs to have the same version of Elixir as well. When Livebook connects to the server, it loads some code into the server environment as well. So your server version of Elixir also needs to be 1.14.2 or higher. I recommend making your local version be the same as the production version to reduce potential problems.
 - **Known cookie value on your server**. Livebook needs to know the cookie value used on the server. Follow [this guide to give your app a static cookie value](/docs/elixir/the-basics/clustering/#the-cookie-situation).
-- **WireGuard setup on your local machine**. Follow the Fly.io [Private Network VPN](/docs/reference/private-networking/#private-network-vpn) guide to walk through that.
+- **WireGuard setup on your local machine**. Follow the Fly.io [Private Network VPN](/docs/networking/private-networking/#private-network-vpn) guide to walk through that.
 
 <aside class="callout">
 **Elixir Version Tip**
@@ -164,7 +165,7 @@ When you have the name and cookie, enter those and "**Connect**" to the server.
 
 **REMEMBER:** Each time we deploy our apps, the private IP will change. We need to get the current IP before we can connect again.
 
-Once connected, we have code completion available in the Elixir cells for the app we are connected to. The [HelloElixir app](https://github.com/fly-apps/hello_elixir-dockerfile) doesn't have anything useful to run so we can just prove to ourselves that our code is being executed remotely.
+Once connected, we have code completion available in the Elixir cells for the app we are connected to. The [HelloElixir app](https://github.com/fly-apps/hello_elixir) doesn't have anything useful to run so we can just prove to ourselves that our code is being executed remotely.
 
 Add the following code to a Livebook Elixir cell and execute it.
 

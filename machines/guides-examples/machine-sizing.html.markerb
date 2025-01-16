@@ -1,20 +1,19 @@
 ---
 title: Machine Sizing
-layout: framework_docs
-sitemap: false
+layout: docs
 author: fideloper
 order: 30
 categories:
   - machines
-nav: firecracker
+nav: machines
 date: 2022-12-08
 ---
 
-Here are a few ways to set the size (CPU and memory) of your Machine VMs.
+Here are a few ways to set the size (CPU and memory) of your Machine VMs. This guide describes creating and sizing individual Machines with the Machines API and `fly machine` commands. For Fly Launch apps, the same general sizing rules apply, but you can also use `fly scale` commands to [update groups of Machines](/docs/apps/scale-machine/) or set a [default VM size](/docs/reference/configuration/#the-vm-section) in the `fly.toml` configuration file.
 
 ## General Rules
 
-We have some [preset sizes](/docs/about/pricing/#machines) for you to choose from. Each CPU selection defaults to a specific amount of memory.
+We have some [preset sizes](/docs/about/pricing/#running-fly-machines) for you to choose from. Each CPU selection defaults to a specific amount of memory.
 
 You can, however, scale your machine's CPU and memory separately. Memory limits are `2gb * shared CPU size` or `8gb * performance CPU size`. Minimum memory is `256m * shared CPU size` or `2048m * performance CPU size`.
 
@@ -49,9 +48,10 @@ If you're using `flyctl`, the equivalent command looks like this:
 fly machine run \
     -a my-app-name \
     --name savvy-machine \
-    --size performance-2x \
+    --vm-size performance-2x \
     some-savvy-image
 ```
+
 
 ## Custom Sizes
 
@@ -77,7 +77,7 @@ curl -i -X POST \
 }'
 ```
 
-The `cpu_kind` parameter can be one of `shared` or `performance`.
+The `cpu_kind` parameter can be one of `shared` or `performance`. Learn more about CPU types and performance [here](/docs/machines/cpu-performance/).
 
 If you're using `flyctl`, the equivalent command looks like this:
 
@@ -85,8 +85,8 @@ If you're using `flyctl`, the equivalent command looks like this:
 fly machine run \
     -a my-app-name \
     --name savvy-machine \
-    --cpus 2 \
-    --memory 1024 \
+    --vm-cpus 2 \
+    --vm-memory 1024 \
     some-savvy-image
 ```
 
@@ -94,7 +94,7 @@ There is not yet a CLI flag for `shared` vs `performance`. It defaults to `share
 
 ## Adjusting Machine Size
 
-You can adjust CPU and memory by [updating a Machine](/docs/machines/working-with-machines/#update-a-machine). Updating a machine replaces the VM with a new one, but machine ID stays the same.
+You can adjust CPU and memory by [updating a Machine](/docs/machines/api-machines-resource/#update-a-machine). Updating a machine replaces the VM with a new one, but machine ID stays the same.
 
 If we create a machine with the same command as above (using 1024m memory), but later want to reduce that to 512m (the minimum allowed), we can make the following API call:
 
@@ -123,7 +123,7 @@ If you're using `flyctl`, the equivalent command looks like this:
 fly machine update \
     -a my-app-name \
     -i some-savvy-image \
-    --cpus 2 \
-    --memory 512 \
+    --vm-cpus 2 \
+    --vm-memory 512 \
     73d8d46dbee589
 ```

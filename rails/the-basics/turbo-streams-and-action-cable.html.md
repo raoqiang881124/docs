@@ -2,7 +2,7 @@
 title: Turbo Streams & Action Cable
 layout: framework_docs
 objective: Provision a Redis Server and configure Rails to run Turbo Streams.
-order: 5
+order: 4
 status: beta
 ---
 
@@ -31,7 +31,7 @@ fly redis create
 ? Optionally, choose one or more replica regions (can be changed later):
 
 Upstash Redis can evict objects when memory is full. This is useful when caching in Redis. This setting can be changed later.
-Learn more at https://fly.io/docs/reference/redis/#memory-limits-and-object-eviction-policies
+Learn more at https://fly.io/docs/upstash/redis/#memory-limits-and-object-eviction-policies
 ? Would you like to enable eviction? No
 ? Select an Upstash Redis plan Free: 100 MB Max Data Size
 
@@ -46,7 +46,7 @@ a number of replica regions, enable eviction, and select a plan.
 The most important line in this output is the second to the last one which will contain
 a URL starting with `redis:`. The URL you see will be considerably longer than the one
 you see above. You will need to provide this URL to Rails, and with Fly.io this is done
-via [secrets](https://fly.io/docs/reference/secrets/). Run the following command replacing the url with the one from the output above:
+via [secrets](/docs/apps/secrets/). Run the following command replacing the url with the one from the output above:
 
 ```cmd
 fly secrets set REDIS_URL=redis://default:<redacted>.upstash.io

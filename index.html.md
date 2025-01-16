@@ -1,36 +1,151 @@
 ---
 title: "Fly.io developer documentation"
 layout: docs
-sitemap: false
+toc: false
+breadcrumbs: false
 nav: firecracker
 ---
 
-Deploy your project in a few minutes with [Fly Launch](/docs/apps/). Then do more with [Fly Machines](/docs/machines/).
+<div class="grid grid-cols-2 items-center">
+  <div>
+## Ready to get started?
 
-## Run your entire stack near your users
+Step 1: Install `flyctl`
 
-Deploy in any [region](/docs/reference/regions/). Manage your worker [processes](/docs/apps/processes/) alongside your web server. Back it with a [Fly Postgres](/docs/postgres/) app, or bring your own exotic database. Whatever supporting infrastructure you need! It's all just VMs.
+```cmd
+brew install flyctl
+```
 
-[Try our Speedrun](/docs/speedrun/)
+Step 2: Run `fly launch`
+  </div>
 
-[Learn more about Fly Launch](/docs/apps/)
+  <figure>
+    <img src="/static/images/doc-main.png" alt="Illustration by Annie Ruygt of Frankie the hot air balloon waving to a bird sitting on a hour roof" class="w-full max-w-lg mx-auto">
+  </figure>
+</div>
 
-## Scale at your own pace
+## Explore Fly.io by features
 
-[flyctl](/docs/flyctl/) helps you herd VMs, but puts the power in your hands.
+<div class="note">
+  <ul class="grid grid-cols-2 sm:grid-cols-3 text-lg font-medium gap-6 px-4 py-6">
+    <li><a href="/docs/machines/">Fly Machines</a></li>
+    <li><a href="/docs/volumes/">Fly Volumes</a></li>
+    <li><a href="/docs/security/">Security</a></li>
+    <li><a href="/docs/gpus/">Fly GPUs</a></li>
+    <li><a href="/docs/networking/">Networking</a></li>
+    <li><a href="/docs/kubernetes/">Fly Kubernetes</a></li>
+    <li><a href="/docs/database-storage-guides/">Database & Storage</a></li>
+    <li><a href="/docs/moitoring/">Monitoring</a></li>
+  </ul>
+</div>
 
-Scale locally, or put your app next to your users in ten more cities. Either way, it's [one command](/docs/apps/scale-count/). Add CPU oomph or RAM, again with [one command](/docs/apps/scale-machine/). Pay for what you use, and have your VMs stop when they're idle, so you don't use more than you need. 
+
+<div class="grid grid-cols-2 py-8">
+  <div>
+## Get answers in your language
+
+Or framework. You know what we mean. Check out the docs specific to your tech so you can move faster.
+  </div>
+  <div class="h-full">
+    <div class="grid grid-cols-3 h-full gap-2">
+      <a
+        href="/docs/elixir/getting-started/"
+        class="btn h-full rounded-xl"
+      >
+        Phoenix
+      </a>
+      <a
+        href="/docs/languages-and-frameworks/static/"
+        class="btn h-full rounded-xl"
+      >
+        Static
+      </a>
+      <a
+        href="/docs/rails/getting-started/"
+        class="btn h-full rounded-xl"
+      >
+        Ruby on Rails
+      </a>
+      <a
+        href="/docs/languages-and-frameworks/dockerfile/"
+        class="btn h-full rounded-xl"
+      >
+        Docker
+      </a>
+      <a
+        href="/docs/languages-and-frameworks/golang/"
+        class="btn h-full rounded-xl"
+      >
+        Go
+      </a>
+      <a
+        href="/docs/rust/"
+        class="btn h-full rounded-xl"
+      >
+        Rust
+      </a>
+      <a
+        href="/docs/django/getting-started/"
+        class="btn h-full rounded-xl"
+      >
+        Django
+      </a>
+      <a
+        href="/docs/laravel/"
+        class="btn h-full rounded-xl"
+      >
+        Laravel
+      </a>
+      <a
+        href="/docs/js/"
+        class="btn h-full rounded-xl"
+      >
+        JavaScript
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="flex justify-center">
+## How does Fly.io work?
+</div>
 
 <figure>
-  <img src="/static/images/docs-intro.webp" srcset="/static/images/docs-intro@2x.webp 2x" alt="">
+  <img src="/static/images/fly-map.png" alt="" class="w-full">
 </figure>
 
-## Control individual VMs
+<div class="grid grid-cols-2 items-center">
+  <figure>
+    <img src="/static/images/help.png" alt="Illustration by Annie Ruygt of Frankie the hot air balloon waving to a bird sitting on a hour roof" class="w-full max-w-lg mx-auto">
+  </figure>
+  <div class="space-y-2">
+    <h2>Could you use more help?</h2>
+    <p>Our Community forum and Support team have the answers.</p>
+  </div>
+</div>
 
-The Fly Launch platform-as-a-service is there to make your apps easy to launch and manage. When you outgrow its opinions, micromanage your app VMs with `fly machines` commands, or drop down a level of abstraction to the [Machines](/docs/machines/working-with-machines/) API. Launch [tiny, fast-booting VMs](/docs/machines/) from your app! The perfect way to run user code, or try that sketchy Typescript snippet ChatGPT suggested.
+<div class="grid grid-cols-2 gap-6">
+  <div class="note">
+    <h3>Community Forum</h3>
+    <ul class="ml-1">
+      <li>Free to use</li>
+      <li>Discuss Fly.io with other users</li>
+      <li>See new Fly.io developments first</li>
+      <li>Searchable backlog</li>
+      <li>Quick answers to common issues</li>
+    </ul>
+    <a href="https://community.fly.io" class="btn mt-4">Learn more</a>
+  </div>
 
-[Learn more about Fly Machines](/docs/machines/)
-
-## Build your own cloud
-
-Go ahead and build your own cloud on top of Fly Machines! Did we mention it's all just VMs? Fly.io features don't care what shape your project takes. A powerful CLI, remote Docker builds, private networking, persistent storage, logging, metrics, secrets management, load balancing, certs, autoscaling, dynamic request routing...it's all available, whatever scale and complexity you're working with.
+  <div class="note">
+    <h3>Support</h3>
+    <ul class="ml-1">
+      <li>Plans start at $29/month</li>
+      <li>Guaranteed response time</li>
+      <li>Run by Fly.io engineers, not chat bots</li>
+      <li>Technical architecture support</li>
+      <li>Public metrics</li>
+    </ul>
+    <a href="https://fly.io/support" class="btn mt-4">Learn more</a>
+  </div>
+</div>

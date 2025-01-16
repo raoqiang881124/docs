@@ -2,14 +2,14 @@
 title: Sidekiq Background Workers
 layout: framework_docs
 objective: Deploy Rails applications that run in multiple processes to one Fly application, like Sidekiq background jobs.
-order: 1
+order: 6
 ---
 
 Rails applications commonly defer complex tasks that take a long to complete to a background worker to make web responses seem fast. This guide shows how to use [Sidekiq](https://github.com/mperham/sidekiq), a popular open-source Rails background job framework, to set up background workers, but it could be done with other great libraries like [Good Job](https://github.com/bensheldon/good_job), [Resque](https://github.com/resque/resque), [etc](https://www.ruby-toolbox.com/categories/Background_Jobs).
 
 ## Provision a Redis server
 
-Sidekiq depends on Redis to communicate between the Rails server process and the background workers. Follow the [Redis setup guide](/docs/reference/redis) to provision a Redis server and set a `REDIS_URL` within the Rails app. Be sure to set the `REDIS_URL` via a secret as demonstrated [here](/docs/rails/the-basics/configuration/#secret-variables).
+Sidekiq depends on Redis to communicate between the Rails server process and the background workers. Follow the [Redis setup guide](/docs/upstash/redis/) to provision a Redis server and set a `REDIS_URL` within the Rails app. Be sure to set the `REDIS_URL` via a secret as demonstrated [here](/docs/rails/the-basics/configuration/#secret-variables).
 
 Verify the `REDIS_URL` is available to your Rails application before you continue by running:
 
